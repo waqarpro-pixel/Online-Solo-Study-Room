@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Track Audio Player</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .audio-player {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 350px;
+    }
+
+    .audio-player button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .audio-player button:hover {
+      background-color: #0056b3;
+    }
+
+    .track-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .time-display {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="audio-player">
+    <!-- Audio element -->
+    <audio id="audioPlayer" controls></audio>
+
+    <!-- Track selection buttons -->
+    <div class="track-buttons">
+      <button onclick="playTrack(0)">Track 1</button>
+      <button onclick="playTrack(1)">Track 2</button>
+      <button onclick="playTrack(2)">Track 3</button>
+      <button onclick="playTrack(3)">Track 4</button>
+      <button onclick="playTrack(4)">Track 5</button>
+    </div>
+
+    <!-- Track and Time display -->
+    <div class="time-display">
+      <span id="trackName">Select a track</span> - <span id="currentTime">00:00</span> / <span id="duration">00:00</span>
+    </div>
+  </div>
+
+  <script>
+    // Array of audio tracks
+    const tracks = [
+      { name: 'Track 1', src: 'lofi1.mp3' },
+      { name: 'Track 2', src: 'codelofi.mp3' },
+    ];
+
+    const audioPlayer = document.getElementById('audioPlayer');
+    const trackNameDisplay = document.getElementById('trackName');
+    const currentTimeDisplay = document.getElementById('currentTime');
+    const durationDisplay = document.getElementById('duration');
+
+    // Function to play a specific track
+    function playTrack(trackIndex) {
+      const selectedTrack = tracks[trackIndex];
+      audioPlayer.src = selectedTrack.src;
+      audioPlayer.play();
+      trackNameDisplay.textContent = selectedTrack.name;
+
+      // Update duration when track metadata is loaded
+      audioPlayer.onloadedmetadata = function() {
+        durationDisplay.textContent = formatTime(audioPlayer.duration);
+      };
+    }
+
+    // Update current time display as the track plays
+    audioPlayer.ontimeupdate = function() {
+      currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+    };
+
+    // Format time as minutes and seconds (MM:SS)
+    function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60);
+      return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    }
+  </script>
+
+</body>
+</html>

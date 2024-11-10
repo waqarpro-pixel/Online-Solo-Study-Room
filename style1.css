@@ -1,0 +1,16 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    background: rgb(0, 125, 203);
+}
+.backg{
+    margin: 8px;
+    border: 1px solid black;
+    height: 700px;
+}
+.backg img{
+    height: 700px;
+    width: 100%;
+}
